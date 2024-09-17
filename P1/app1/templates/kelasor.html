@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لیست کلاسورها - سایت شما</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1E90FF 10%, #00BFFF 100%);
+            color: black;
+            direction: rtl;
+        }
+        .kelasor-container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .kelasor-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: #ffff;
+        }
+        .kelasor-card h4 {
+            margin: 0;
+        }
+        .kelasor-card .btn {
+            margin-right: 10px;
+        }
+        .btn-success, .btn-info, .btn-warning, .btn-danger {
+            color: #fff;
+            border: none;
+        }
+        .btn-info {
+            background: #17a2b8;
+        }
+        .btn-warning {
+            background: #ffc107;
+        }
+        .btn-danger {
+            background: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="kelasor-container">
+        <h2>کلاسورهای شما</h2>
+        <a href="{% url 'kelasor-create' %}" class="btn btn-success mb-3">ایجاد کلاسور جدید</a>
+        <form action="{% url 'logout' %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger mb-3">خروج</button>
+        </form>
+
+        <form method="GET" action="">
+            <input type="text" name="search" placeholder="جستجوی کلاسورها..." value="{{ request.GET.search }}" class="form-control mb-3">
+            <button type="submit" class="btn btn-primary">جستجو</button>
+        </form>
+
+        {% for item in items %}
+        <div class="kelasor-card">
+            <h4>{{ item.title }}</h4>
+            <p>{{ item.description }}</p>
+            <a href="{% url 'kelasor-detail' item.id %}" class="btn btn-info">مشاهده جزئیات</a>
+            <a href="{% url 'kelasor-update' item.id %}" class="btn btn-warning">ویرایش</a>
+            <a href="{% url 'kelasor-delete' item.id %}" class="btn btn-danger">حذف</a>
+            <a href="{% url 'parvande-list' item.id %}" class="btn btn-info">مشاهده لیست پرونده‌ها</a>
+        </div>
+        {% empty %}
+        <p>کلاسوری موجود نیست. لطفاً یکی اضافه کنید!</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

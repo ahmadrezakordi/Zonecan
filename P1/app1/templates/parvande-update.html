@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ویرایش پرونده - سایت شما</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #FFA07A 10%, #FF4500 100%);
+            direction: rtl;
+            text-align: right;
+        }
+        .form-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>ویرایش پرونده "{{ item.title }}"</h2>
+
+        <!-- اضافه کردن enctype برای پشتیبانی از آپلود فایل -->
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- نمایش خطاهای عمومی فرم -->
+            {{ form.non_field_errors }}
+
+            <!-- نمایش فیلد‌های فرم -->
+            {% for field in form %}
+                <div class="mb-3">
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    {{ field }}
+                    {{ field.errors }}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-success">ذخیره تغییرات</button>
+            <a href="{% url 'parvande-list' item.kelasor.id %}" class="btn btn-secondary">برگشت</a>
+        </form>
+    </div>
+</body>
+</html>
